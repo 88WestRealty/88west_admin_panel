@@ -1,1 +1,1 @@
-# 88West-Membership-Card
+# 88west_admin_panel
