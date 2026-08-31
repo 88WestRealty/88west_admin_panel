@@ -1,0 +1,57 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.4rem;
+  padding: 0 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-weight: 550;
+  font-size: 0.875rem;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 130ms ease, border-color 130ms ease,
+    box-shadow 130ms ease, opacity 130ms ease;
+}
+
+.button:disabled { opacity: 0.5; cursor: not-allowed; }
+.button:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring); }
+.button:not(:disabled):active { transform: translateY(0.5px); }
+
+/* Ink, not blue — the same near-black the membership card uses. */
+.primary {
+  background: var(--ink);
+  color: var(--accent-fg);
+  box-shadow: var(--shadow-sm);
+}
+.primary:hover:not(:disabled) { background: var(--accent-hover); }
+
+.secondary {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+.secondary:hover:not(:disabled) { background: var(--surface-2); }
+
+.danger { background: var(--danger); color: #fff; box-shadow: var(--shadow-sm); }
+.danger:hover:not(:disabled) { background: var(--danger-hover); }
+.danger:focus-visible { box-shadow: 0 0 0 3px var(--danger-ring); }
+
+.ghost { background: transparent; color: var(--fg-muted); }
+.ghost:hover:not(:disabled) { background: var(--surface-3); color: var(--ink); }
+
+.spinner {
+  width: 0.85em;
+  height: 0.85em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 600ms linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2s; } }

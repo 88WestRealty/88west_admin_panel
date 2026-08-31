@@ -1,0 +1,66 @@
+.card {
+  position: relative;
+  width: min(26rem, 100%);
+  padding: 2.25rem 2.25rem 1.75rem;
+  border: 1px solid var(--border);
+  /* Brass top edge — the one saturated accent on the screen, echoing the gold
+     foil on the membership card. Done as the card's own border rather than a
+     pseudo-element so it follows the corner radius exactly and can never
+     overhang the edge. */
+  border-top: 3px solid var(--brass);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  /* Two layers rather than one: a tight contact shadow keeps the edge crisp,
+     a wide soft one lifts the card off the paper. No inset highlight — it
+     would sit over the brass border and mute it. */
+  box-shadow:
+    0 1px 2px rgb(19 28 43 / 0.06),
+    0 24px 56px -20px rgb(19 28 43 / 0.28);
+}
+
+.header { margin-bottom: 1.75rem; }
+
+/* The wordmark, set exactly as the mobile app sets it: brass "88",
+   ink "WEST", tight tracking, serif. */
+.wordmark {
+  margin: 0 0 0.3rem;
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  color: var(--ink);
+}
+.wordmarkAccent { color: var(--brass); }
+
+.title {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+
+.footer {
+  margin: 1.5rem 0 0;
+  padding-top: 1.05rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  color: var(--fg-subtle);
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .card { padding: 1.85rem 1.5rem 1.5rem; }
+}
+
+@media (max-width: 380px) {
+  .card { padding: 1.6rem 1.4rem 1.3rem; border-radius: var(--radius-md); }
+  .wordmark { font-size: 1.5rem; }
+  .title { font-size: 1.3rem; }
+}

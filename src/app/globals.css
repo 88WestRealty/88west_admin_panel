@@ -1,0 +1,104 @@
+/* ============================================================================
+   88West design tokens
+   Palette taken from the member mobile app: warm bone paper, deep ink navy,
+   brass accent. The admin panel is the same product, so it uses the same
+   material — not a generic blue dashboard theme.
+   ========================================================================= */
+
+:root {
+  color-scheme: light;
+
+  /* Brand ------------------------------------------------------------- */
+  --ink: #131c2b;          /* card + nav background, primary text */
+  --ink-soft: #1e2a3d;     /* raised surfaces on ink */
+  --brass: #a8843f;        /* the gold in "88WEST" and the QR frame */
+  --brass-soft: #c4a86a;   /* lighter brass, for text on ink */
+
+  /* Surfaces, warm not neutral ---------------------------------------- */
+  --bg: #eae7df;           /* app paper */
+  --surface: #ffffff;      /* cards */
+  --surface-2: #f4f2ed;    /* insets, "how it works" panel */
+  --surface-3: #e6e2d8;    /* hover / pressed */
+
+  --border: #dcd7cb;
+  --border-strong: #c3bcab;
+
+  --fg: #131c2b;
+  --fg-muted: #5a6472;
+  --fg-subtle: #8b9199;
+
+  /* Actions ------------------------------------------------------------ */
+  --accent: #131c2b;
+  --accent-hover: #22304a;
+  --accent-fg: #f7f5f0;
+  --focus: #a8843f;
+  --focus-ring: rgb(168 132 63 / 0.28);
+
+  --danger: #a33a32;
+  --danger-hover: #8c302a;
+  --danger-bg: #f9ecea;
+  --danger-fg: #8c302a;
+  --danger-ring: rgb(163 58 50 / 0.18);
+
+  --success-bg: #e8f0e7;
+  --success-fg: #3d6b45;
+  --warning-bg: #f7efdc;
+  --warning-fg: #8a6524;
+
+  --shadow-sm: 0 1px 2px rgb(19 28 43 / 0.06);
+  --shadow-md: 0 4px 12px -2px rgb(19 28 43 / 0.10);
+  --shadow-lg: 0 18px 44px -12px rgb(19 28 43 / 0.22), 0 4px 12px -4px rgb(19 28 43 / 0.10);
+
+  /* Type — serif display, mono for labels/eyebrows, matching the app ---- */
+  --font-serif: ui-serif, 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; }
+
+/* Small caps mono eyebrow — the "PREFERRED MEMBER" / "QUICK ACCESS" treatment
+   that gives the mobile app its editorial feel. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+
+/* Autofill defaults to a hard blue-white slab that ignores the palette. The
+   background cannot be set directly, so an inset shadow paints over it. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--fg);
+  -webkit-box-shadow: 0 0 0 1000px var(--surface-2) inset;
+  caret-color: var(--fg);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,44 @@
+.form { display: flex; flex-direction: column; gap: 1.15rem; }
+
+.submit {
+  width: 100%;
+  min-height: 2.6rem;
+  margin-top: 0.2rem;
+  font-size: 0.875rem;
+}
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--danger) 35%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--danger-bg);
+  color: var(--danger-fg);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.bannerIcon { flex-shrink: 0; margin-top: 0.12em; }
+
+
+/* One quiet line rather than a fenced-off section — it is a shortcut for
+   whoever is building, not a second way in. */
+.devLink {
+  align-self: center;
+  margin-top: 0.35rem;
+  padding: 0.3rem 0.5rem;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--fg-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.devLink:hover:not(:disabled) { color: var(--warning-fg); background: var(--surface-2); }
+.devLink:focus-visible { outline: 2px solid var(--brass); outline-offset: 1px; }
+.devLink:disabled { opacity: 0.5; cursor: not-allowed; }

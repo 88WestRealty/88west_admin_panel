@@ -1,0 +1,49 @@
+.wrapper {
+  position: relative;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 3rem 1.5rem;
+  /* A vertical wash rather than one flat fill: the paper reads as lit from
+     above, which is what gives the card something to sit against. */
+  background:
+    radial-gradient(120% 80% at 50% -10%, #f6f4ef 0%, transparent 60%),
+    linear-gradient(180deg, #eeebe3 0%, var(--bg) 45%, #e3dfd5 100%);
+  overflow: hidden;
+}
+
+/* Two soft brand-tinted blooms, well below the card. Purely atmospheric and
+   inert to pointer events so they can never intercept a click on the form. */
+.wrapper::before,
+.wrapper::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(90px);
+}
+
+.wrapper::before {
+  width: 42rem;
+  height: 42rem;
+  top: -16rem;
+  left: -12rem;
+  background: rgb(168 132 63 / 0.13);   /* brass */
+}
+
+.wrapper::after {
+  width: 38rem;
+  height: 38rem;
+  right: -14rem;
+  bottom: -18rem;
+  background: rgb(19 28 43 / 0.09);     /* ink */
+}
+
+.content { position: relative; width: 100%; display: grid; place-items: center; }
+
+/* The blur filters are expensive to composite on low-end hardware and add
+   nothing for anyone who has asked for less motion/effects. */
+@media (prefers-reduced-motion: reduce) {
+  .wrapper::before,
+  .wrapper::after { display: none; }
+}

@@ -1,0 +1,18 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+.dot { width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--fg-subtle); }
+.wrapper[data-live] { border-color: color-mix(in srgb, var(--success-fg) 35%, transparent); }
+.wrapper[data-live] .dot { background: var(--success-fg); }
+.wrapper[data-live] .label { color: var(--success-fg); }

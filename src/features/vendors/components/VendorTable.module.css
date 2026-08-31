@@ -1,0 +1,21 @@
+.wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.table { width: 100%; border-collapse: collapse; min-width: 46rem; }
+
+.th {
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--fg-subtle);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}

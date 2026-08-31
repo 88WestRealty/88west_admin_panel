@@ -1,0 +1,42 @@
+.section {
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+}
+.section + .section {
+  margin-top: 1.35rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--border);
+}
+
+/* A <legend> is pulled out of the fieldset's normal flow by the UA stylesheet,
+   so under `display: flex` it overlaps the first field. Floating it and
+   clearing the following block restores a line of its own without giving up
+   the semantic element (and the grouping it gives screen readers). */
+.legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+
+.description {
+  clear: both;
+  margin: 0 0 0.75rem;
+  font-size: 0.78rem;
+  color: var(--fg-subtle);
+}
+
+.fields {
+  clear: both;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}

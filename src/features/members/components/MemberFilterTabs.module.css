@@ -1,0 +1,30 @@
+/* Pill row mirroring the app's All / Dining / Coffee category filter. */
+.tabs {
+  display: inline-flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.tab {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.42rem 0.85rem;
+  cursor: pointer;
+  transition: background-color 130ms ease, color 130ms ease, border-color 130ms ease;
+}
+.tab:hover { border-color: var(--border-strong); color: var(--ink); }
+
+/* Selected pill is solid ink, exactly like the app's active "All" chip. */
+.tab[data-active] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--accent-fg);
+}
+.tab:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }

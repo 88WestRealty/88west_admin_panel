@@ -1,0 +1,69 @@
+.card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 140ms ease, border-color 140ms ease;
+}
+.card:hover { box-shadow: var(--shadow-md); border-color: var(--border-strong); }
+
+/* Ink tile with brass initials — the vendor-avatar treatment from the app. */
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--brass);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.details { min-width: 0; display: flex; flex-direction: column; gap: 0.15rem; }
+.headline { display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap; }
+
+.name {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.email { margin: 0; font-size: 0.8125rem; color: var(--fg-muted); overflow-wrap: anywhere; }
+
+.meta {
+  margin: 0.1rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+
+.note {
+  margin: 0.35rem 0 0;
+  padding: 0.45rem 0.6rem;
+  border-left: 2px solid var(--border-strong);
+  background: var(--surface-2);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+.actions { display: flex; gap: 0.5rem; }
+
+@media (max-width: 640px) {
+  .card { grid-template-columns: auto 1fr; }
+  .actions { grid-column: 1 / -1; justify-content: flex-end; }
+}

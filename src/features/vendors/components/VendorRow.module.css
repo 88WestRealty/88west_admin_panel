@@ -1,0 +1,62 @@
+.row { border-top: 1px solid var(--border); transition: background-color 120ms ease; }
+.row:first-child { border-top: none; }
+.row:hover { background: var(--surface-2); }
+.row[data-inactive] { opacity: 0.6; }
+
+.primary { padding: 0.7rem 0.9rem; }
+
+.identity { display: flex; align-items: center; gap: 0.7rem; min-width: 0; }
+
+/* Same ink tile the member directory card uses for vendor logos. */
+.logo {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--brass);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  overflow: hidden;
+}
+.logo[data-empty] { background: var(--surface-3); color: var(--fg-subtle); }
+.logoImage { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.identityText { display: flex; flex-direction: column; gap: 0.05rem; min-width: 0; }
+
+.name {
+  font-family: var(--font-serif);
+  font-size: 0.98rem;
+  font-weight: 650;
+  letter-spacing: -0.008em;
+  color: var(--ink);
+}
+
+.email { font-size: 0.75rem; color: var(--fg-subtle); overflow-wrap: anywhere; }
+
+.cell {
+  padding: 0.7rem 0.9rem;
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+  vertical-align: middle;
+}
+
+/* Pill matching the "15% off" chip on the member card. */
+.discount {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.noOffer { color: var(--fg-subtle); }
+
+.actions { padding: 0.55rem 0.9rem; text-align: right; white-space: nowrap; }
+.actions > * + * { margin-left: 0.35rem; }
