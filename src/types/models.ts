@@ -13,6 +13,8 @@ export interface Member {
   email: string;
   phone: string | null;
   status: MemberStatus;
+  /** Access switch, independent of the review decision. Only an approved member may be active. */
+  isActive: boolean;
   reviewNote: string | null;
   reviewedAt: string | null;
   createdAt: string;
@@ -42,6 +44,7 @@ export const toMember = (row: MemberRow): Member => ({
   email: row.email,
   phone: row.phone,
   status: row.status,
+  isActive: row.is_active,
   reviewNote: row.review_note,
   reviewedAt: row.reviewed_at,
   createdAt: row.created_at,

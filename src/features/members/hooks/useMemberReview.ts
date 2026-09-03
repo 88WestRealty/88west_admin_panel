@@ -35,7 +35,15 @@ export function useMemberReview() {
       if (!previous) return;
 
       markPending(memberId, true);
-      applyUpsert({ ...previous, status: decision, reviewNote: note ?? null });
+      // Mirror the database trigger optimistically: rejecting deactivates,
+      // approving reactivates, so the card does not flash the wrong access
+      // state before the realtime UPDATE lands.
+      applyUpsert({
+        ...previous,
+        status: decision,
+        isActive: decision === 'approved',
+        reviewNote: note ?? null,
+      });
 
       const result = await memberService.reviewMember(client, {
         memberId,

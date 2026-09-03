@@ -61,9 +61,43 @@
   font-style: italic;
 }
 
-.actions { display: flex; gap: 0.5rem; }
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.decisions { display: flex; gap: 0.5rem; }
+
+.activeToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.activeToggle input { cursor: pointer; margin: 0; }
+
+/* Rejected and pending members cannot be active. The control stays visible
+   so the state is legible, but reads plainly as unavailable. */
+.activeToggle[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.activeToggle[data-disabled] input { cursor: not-allowed; }
 
 @media (max-width: 640px) {
   .card { grid-template-columns: auto 1fr; }
-  .actions { grid-column: 1 / -1; justify-content: flex-end; }
+  .actions {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 }

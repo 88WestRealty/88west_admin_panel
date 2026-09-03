@@ -12,6 +12,7 @@ interface MemberCardProps {
   isPending: boolean;
   onApprove: (id: string) => void;
   onReject: (id: string) => void;
+  onSetActive: (id: string, isActive: boolean) => void;
 }
 
 const TONE = {
@@ -33,8 +34,17 @@ export const MemberCard = memo(function MemberCard({
   isPending,
   onApprove,
   onReject,
+  onSetActive,
 }: MemberCardProps) {
-  const isDecided = member.status !== 'pending';
+  // A decision is never final: an approved member can be rejected later and a
+  // rejected one reinstated, so only the button matching the current status is
+  // suppressed (it would be a no-op the service rejects anyway).
+  const canApprove = member.status !== 'approved';
+  const canReject = member.status !== 'rejected';
+
+  // Access is meaningful only for an approved member. A rejected or pending
+  // row reads non-active and the switch is disabled until they are approved.
+  const isApproved = member.status === 'approved';
 
   return (
     <article className={styles.card}>
@@ -55,20 +65,42 @@ export const MemberCard = memo(function MemberCard({
         {member.reviewNote ? <p className={styles.note}>“{member.reviewNote}”</p> : null}
       </div>
 
-      {!isDecided ? (
-        <div className={styles.actions}>
-          <Button
-            variant="secondary"
-            isLoading={isPending}
-            onClick={() => onReject(member.id)}
-          >
-            Reject
-          </Button>
-          <Button isLoading={isPending} onClick={() => onApprove(member.id)}>
-            Approve
-          </Button>
+      <div className={styles.actions}>
+        <label
+          className={styles.activeToggle}
+          data-disabled={!isApproved || undefined}
+          title={
+            isApproved
+              ? 'Switch this member’s access on or off'
+              : 'Only an approved member can be made active'
+          }
+        >
+          <input
+            type="checkbox"
+            checked={member.isActive}
+            disabled={!isApproved || isPending}
+            onChange={(event) => onSetActive(member.id, event.target.checked)}
+          />
+          <span>{member.isActive ? 'Active' : 'Non-active'}</span>
+        </label>
+
+        <div className={styles.decisions}>
+          {canReject ? (
+            <Button
+              variant="secondary"
+              isLoading={isPending}
+              onClick={() => onReject(member.id)}
+            >
+              Reject
+            </Button>
+          ) : null}
+          {canApprove ? (
+            <Button isLoading={isPending} onClick={() => onApprove(member.id)}>
+              {member.status === 'rejected' ? 'Reinstate' : 'Approve'}
+            </Button>
+          ) : null}
         </div>
-      ) : null}
+      </div>
     </article>
   );
 });

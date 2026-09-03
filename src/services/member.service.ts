@@ -5,7 +5,7 @@ import { toMember, type Member, type MemberStatus } from '@/types/models';
 import { toAppError } from '@/utils/errors';
 
 const COLUMNS =
-  'id, auth_user_id, full_name, email, phone, status, review_note, reviewed_by, reviewed_at, created_at, updated_at';
+  'id, auth_user_id, full_name, email, phone, status, is_active, review_note, reviewed_by, reviewed_at, created_at, updated_at';
 
 /**
  * The verification queue's data access.
@@ -35,7 +35,10 @@ export interface ReviewArgs {
   reviewerId: string;
 }
 
-/** Accept or reject a signup. The realtime channel broadcasts the result. */
+/**
+ * Accept or reject a signup, or revise an earlier decision. The realtime
+ * channel broadcasts the result.
+ */
 export async function reviewMember(
   client: TypedSupabaseClient,
   { memberId, decision, note, reviewerId }: ReviewArgs,
@@ -51,15 +54,19 @@ export async function reviewMember(
       reviewed_by: reviewerId,
       reviewed_at: new Date().toISOString(),
     })
-    // Only act on a row that is still pending — two admins clicking at once
-    // means the second update matches nothing rather than overwriting the first.
+    // A decision may be revised at any time — an admin can reject a member
+    // they previously approved, or reinstate one they rejected — so this is
+    // deliberately not restricted to still-pending rows. The guard instead
+    // rejects a no-op: re-applying the decision a row already carries.
     .eq('id', parsed.data.memberId)
-    .eq('status', 'pending')
+    .neq('status', parsed.data.decision)
     .select(COLUMNS)
     .maybeSingle();
 
   if (error) return err(toAppError(error, 'Unable to record the decision.'));
-  if (!data) return err({ message: 'This signup was already reviewed.', code: 'stale' });
+  if (!data) {
+    return err({ message: 'This member already has that status.', code: 'stale' });
+  }
   return ok(toMember(data));
 }
 
@@ -69,4 +76,34 @@ export async function countPending(client: TypedSupabaseClient): Promise<number>
     .select('id', { count: 'exact', head: true })
     .eq('status', 'pending');
   return count ?? 0;
+}
+
+/**
+ * Switches a member's access on or off without touching the review decision.
+ *
+ * Guarded by `.eq('status', 'approved')`: only an approved member can be
+ * active, so a request to activate a pending or rejected row matches nothing
+ * rather than fighting the database trigger that would reset it anyway.
+ */
+export async function setMemberActive(
+  client: TypedSupabaseClient,
+  memberId: string,
+  isActive: boolean,
+): Promise<Result<Member>> {
+  const { data, error } = await client
+    .from('members')
+    .update({ is_active: isActive })
+    .eq('id', memberId)
+    .eq('status', 'approved')
+    .select(COLUMNS)
+    .maybeSingle();
+
+  if (error) return err(toAppError(error, 'Unable to change access.'));
+  if (!data) {
+    return err({
+      message: 'Only an approved member can be made active.',
+      code: 'not_approved',
+    });
+  }
+  return ok(toMember(data));
 }

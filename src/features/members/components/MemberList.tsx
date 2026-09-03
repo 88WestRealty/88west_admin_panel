@@ -14,6 +14,7 @@ interface MemberListProps {
   error: string | null;
   onRetry: () => void;
   onReview: (id: string, decision: 'approved' | 'rejected') => void;
+  onSetActive: (id: string, isActive: boolean) => void;
 }
 
 export function MemberList({
@@ -22,6 +23,7 @@ export function MemberList({
   error,
   onRetry,
   onReview,
+  onSetActive,
 }: MemberListProps) {
   const pendingIds = useMembersStore((s) => s.pendingIds);
 
@@ -31,6 +33,10 @@ export function MemberList({
     [onReview],
   );
   const handleReject = useCallback((id: string) => onReview(id, 'rejected'), [onReview]);
+  const handleSetActive = useCallback(
+    (id: string, isActive: boolean) => onSetActive(id, isActive),
+    [onSetActive],
+  );
 
   if (status === 'loading' && members.length === 0) {
     return <Spinner label="Loading the verification queue…" />;
@@ -69,6 +75,7 @@ export function MemberList({
             isPending={pendingIds.includes(member.id)}
             onApprove={handleApprove}
             onReject={handleReject}
+          onSetActive={handleSetActive}
           />
         </li>
       ))}

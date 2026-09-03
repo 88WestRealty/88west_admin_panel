@@ -23,6 +23,7 @@ export type MemberRow = {
   email: string;
   phone: string | null;
   status: MemberStatus;
+  is_active: boolean;
   review_note: string | null;
   reviewed_by: string | null;
   reviewed_at: string | null;
@@ -49,7 +50,7 @@ export type AdminUserRow = {
 type MemberInsert = Pick<MemberRow, 'auth_user_id' | 'full_name' | 'email'> &
   Partial<Pick<MemberRow, 'phone' | 'status'>>;
 type MemberUpdate = Partial<
-  Pick<MemberRow, 'status' | 'review_note' | 'reviewed_by' | 'reviewed_at'>
+  Pick<MemberRow, 'status' | 'is_active' | 'review_note' | 'reviewed_by' | 'reviewed_at'>
 >;
 
 /** Columns an admin may set. Server-managed columns are deliberately absent. */
