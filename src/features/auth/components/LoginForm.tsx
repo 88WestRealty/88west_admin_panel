@@ -22,8 +22,10 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
     setEmail,
     password,
     setPassword,
+    passwordRef,
     fieldErrors,
     formError,
+    attempt,
     isSubmitting,
     submit,
   } = useLoginForm(redirectTo);
@@ -36,7 +38,14 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
   return (
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
       {formError ? (
-        <div className={styles.banner} role="alert">
+        /* Keyed on the attempt count so every rejection remounts the node and
+           replays its entrance — see the note on `attempt` in useLoginForm. */
+        <div
+          key={attempt}
+          className={styles.banner}
+          data-tone={formError.tone}
+          role="alert"
+        >
           <svg
             className={styles.bannerIcon}
             width="15"
@@ -47,7 +56,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
           >
             <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM7.25 4.5h1.5v5h-1.5v-5zm0 6.25h1.5v1.5h-1.5v-1.5z" />
           </svg>
-          <span>{formError}</span>
+          <span>{formError.message}</span>
         </div>
       ) : null}
 
@@ -66,6 +75,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
       />
 
       <TextField
+        ref={passwordRef}
         label="Password"
         type="password"
         name="password"

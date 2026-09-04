@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { AppShell } from '@/components/layout';
-import { ROUTES } from '@/constants';
+import { ROUTES, DENIED_PARAM } from '@/constants';
 import { DEV_SESSION_COOKIE, IS_DEV_LOGIN_ENABLED } from '@/lib/dev-auth';
 import { getSupabaseServerClient, getServerUser } from '@/lib/supabase/server';
 
@@ -26,7 +26,10 @@ export default async function DashboardLayout({ children }: { children: ReactNod
 
   const supabase = await getSupabaseServerClient();
   const { data: isAdmin } = await supabase.rpc('is_admin');
-  if (isAdmin !== true) redirect(ROUTES.login);
+  // Authenticated but not staff — most often a member account signed in from
+  // the user app. The flag is what stops this from ping-ponging against the
+  // proxy's own "signed-in users don't belong on /login" rule.
+  if (isAdmin !== true) redirect(`${ROUTES.login}?${DENIED_PARAM}=1`);
 
   return <AppShell>{children}</AppShell>;
 }

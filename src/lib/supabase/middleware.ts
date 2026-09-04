@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import type { Database } from '@/types/database.types';
-import { ROUTES, isPublicRoute } from '@/constants/routes';
+import { ROUTES, isPublicRoute, DENIED_PARAM } from '@/constants/routes';
 import { DEV_SESSION_COOKIE, IS_DEV_LOGIN_ENABLED } from '@/lib/dev-auth';
 import { supabaseEnv } from './env';
 
@@ -57,7 +57,12 @@ export async function updateSession(request: NextRequest): Promise<NextResponse>
     return NextResponse.redirect(url);
   }
 
-  if (data.user && pathname === ROUTES.login) {
+  // The `denied` flag means the dashboard layout just rejected this user for
+  // lacking admin rights. Bouncing them back would restart that exact cycle,
+  // so they are allowed to land on /login and sign out from there.
+  const wasDenied = request.nextUrl.searchParams.has(DENIED_PARAM);
+
+  if (data.user && pathname === ROUTES.login && !wasDenied) {
     const url = request.nextUrl.clone();
     url.pathname = ROUTES.members;
     url.search = '';

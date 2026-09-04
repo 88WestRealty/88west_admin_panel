@@ -18,12 +18,19 @@ migrations and run them in the Supabase dashboard's **SQL Editor**.
 Vendor logos need a public storage bucket named `vendor-logos`
 (**Storage → New bucket**, Public enabled). Uploads fail until it exists.
 
-Grant yourself admin access — authentication alone is not enough:
+Grant yourself admin access — authentication alone is not enough. If the
+account already exists (signed up through the app, or created via
+**Authentication → Users**):
 
 ```sql
 insert into public.admin_users (auth_user_id)
-select id from auth.users where email = 'you@example.com';
+select id from auth.users where email = 'you@example.com'
+on conflict (auth_user_id) do nothing;
 ```
+
+To create the login and the grant together, or if sign-in fails with
+`Database error querying schema`, see
+[docs/creating-an-admin-user.md](docs/creating-an-admin-user.md).
 
 ## Architecture
 

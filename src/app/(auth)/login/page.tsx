@@ -1,20 +1,25 @@
 import type { Metadata, Route } from 'next';
-import { APP_NAME, ROUTES } from '@/constants';
-import { LoginForm } from '@/features/auth';
+import { APP_NAME, ROUTES, DENIED_PARAM } from '@/constants';
+import { LoginForm, SignOutButton } from '@/features/auth';
 import styles from './page.module.css';
 
 export const metadata: Metadata = { title: `Sign in · ${APP_NAME}` };
 
 interface LoginPageProps {
-  searchParams: Promise<{ next?: string }>;
+  searchParams: Promise<{ next?: string; [DENIED_PARAM]?: string }>;
 }
 
 /**
- * Server Component. The proxy has already redirected signed-in admins away,
- * so this only ever renders for signed-out visitors.
+ * Server Component. The proxy redirects signed-in admins away, so this
+ * normally renders only for signed-out visitors — the exception being a
+ * non-admin who was turned back by the dashboard's authorisation gate. That
+ * user holds a valid session, so offering the sign-in form again would be
+ * useless; they are shown why they were refused and given a way out instead.
  */
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { next } = await searchParams;
+  const params = await searchParams;
+  const { next } = params;
+  const wasDenied = params[DENIED_PARAM] !== undefined;
   // Only accept same-origin paths — a raw `next` value would be an open
   // redirect. The value is user-supplied, so typedRoutes cannot verify it
   // statically; this check is the runtime equivalent of that guarantee.
@@ -33,7 +38,18 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <h1 className={styles.title}>Admin Console</h1>
       </header>
 
-      <LoginForm redirectTo={redirectTo} />
+      {wasDenied ? (
+        <div className={styles.denied}>
+          <p className={styles.deniedTitle}>This account is not a staff account.</p>
+          <p className={styles.deniedBody}>
+            You are signed in, but the console is limited to administrators. Sign out to use a
+            different account.
+          </p>
+          <SignOutButton className={styles.deniedAction} />
+        </div>
+      ) : (
+        <LoginForm redirectTo={redirectTo} />
+      )}
 
       <p className={styles.footer}>Staff access only</p>
     </div>

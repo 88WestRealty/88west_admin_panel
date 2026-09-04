@@ -34,7 +34,7 @@ export function MembersScreen() {
     <section className={styles.screen}>
       <PageHeader
         title="Verify members"
-        description="Signups submitted from the mobile app, newest first."
+        description="Signups submitted from the member website, newest first."
         actions={<LiveIndicator />}
       />
 

@@ -64,3 +64,29 @@
   .wordmark { font-size: 1.5rem; }
   .title { font-size: 1.3rem; }
 }
+
+/* Shown in place of the sign-in form when an authenticated non-admin was
+   turned back by the dashboard gate. Muted rather than alarming — this is a
+   wrong-door message, not an error. */
+.denied {
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle, transparent);
+}
+
+.deniedTitle {
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.deniedBody {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--fg-subtle);
+}
+
+.deniedAction { margin-top: 0.9rem; }

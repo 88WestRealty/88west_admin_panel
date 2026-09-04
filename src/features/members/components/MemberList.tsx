@@ -61,7 +61,7 @@ export function MemberList({
     return (
       <EmptyState
         title="Nothing to review"
-        description="New signups from the mobile app appear here the moment they arrive."
+        description="New signups from the member website appear here the moment they arrive."
       />
     );
   }
