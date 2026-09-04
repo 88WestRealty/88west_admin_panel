@@ -57,6 +57,22 @@ export function LogoUpload({
     return () => URL.revokeObjectURL(previewUrl);
   }, [previewUrl]);
 
+  /**
+   * Dismissing the OS file picker fires `cancel` on the input, and that event
+   * bubbles. Containing it here keeps a dismissed picker from reaching any
+   * ancestor — notably the <dialog> hosting this form, which treats a `cancel`
+   * of its own as "Escape was pressed" and closes. React exposes no `onCancel`
+   * prop for inputs, so the listener is attached directly.
+   */
+  useEffect(() => {
+    const input = inputRef.current;
+    if (!input) return;
+
+    const stop = (event: Event) => event.stopPropagation();
+    input.addEventListener('cancel', stop);
+    return () => input.removeEventListener('cancel', stop);
+  }, []);
+
   const storedUrl = storageService.vendorLogoUrl(client, value);
   const shown = previewUrl ?? storedUrl;
   const error = localError ?? fieldError ?? null;

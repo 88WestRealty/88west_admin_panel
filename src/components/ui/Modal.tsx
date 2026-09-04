@@ -30,7 +30,12 @@ export function Modal({ isOpen, title, onClose, children }: ModalProps) {
     if (isOpen && !dialog.open) dialog.showModal();
     if (!isOpen && dialog.open) dialog.close();
 
+    // Only the dialog's *own* cancel event means "Escape was pressed".
+    // `cancel` also fires — and bubbles — from an <input type="file"> inside
+    // the panel when the user dismisses the OS file picker, which otherwise
+    // reads as an Escape here and closes the whole form behind the picker.
     const handleCancel = (event: Event) => {
+      if (event.target !== dialog) return;
       event.preventDefault();
       onCloseRef.current();
     };
